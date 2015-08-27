@@ -4,33 +4,24 @@ import ColumnDefinition from 'ember-table/models/column-definition';
 export default Ember.Mixin.create({
   columns: function () {
     var columnTitleAndNames = [
-      ["Id", "id"],
-      ["Beginning DR (Base)", "beginningDr"],
-      ["Beginning CR (Base)", "beginningCr"],
-      ["Net Beginning (Base)", "netBeginning"],
-      ["Activity DR (Base)", "activityDr"],
-      ["Activity CR (Base)", "activityCr"],
-      ["Net Activity (Base)", "netActivity"],
-      ["Ending DR (Base)", "endingDr"],
-      ["Ending CR (Base)", "endingCr"],
-      ["Net Ending (Base)", "netEnding"]
+      ["Id", "id", "decimal"],
+      ["Beginning DR (Base)", "beginningDr", "decimal"],
+      ["Beginning CR (Base)", "beginningCr", "decimal"],
+      ["Net Beginning (Base)", "netBeginning", "decimal"],
+      ["Activity DR (Base)", "activityDr", "decimal"],
+      ["Activity CR (Base)", "activityCr", "decimal"],
+      ["Net Activity (Base)", "netActivity", "decimal"],
+      ["Ending DR (Base)", "endingDr", "decimal"],
+      ["Ending CR (Base)", "endingCr", "decimal"],
+      ["Net Ending (Base)", "netEnding", "decimal"]
     ];
-    return columnTitleAndNames.map(function (titleAndName) {
+    return columnTitleAndNames.map(function (column) {
       return ColumnDefinition.create({
-        headerCellName: titleAndName[0],
-        contentPath: titleAndName[1],
+        headerCellName: column[0],
+        contentPath: column[1],
+        dataType:column[2],
         getCellContent: function (row) {
-          return Ember.get(row, titleAndName[1]);
-        },
-        sortBy: function(prev, next){
-          var prevName = prev.get(titleAndName[1]);
-          var nextName = next.get(titleAndName[1]);
-          if(typeof prevName === 'number') {
-            return prevName - nextName;
-          }
-          else {
-            return (prevName < nextName) ? -1 : (prevName > nextName) ? 1 : 0;
-          }
+          return Ember.get(row, column[1]);
         }
       });
     });
